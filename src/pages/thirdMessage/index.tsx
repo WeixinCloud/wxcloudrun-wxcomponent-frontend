@@ -39,19 +39,6 @@ const authMessageColumn: PrimaryTableCol[] = [
             )
         }
     },
-    // {
-    //     align: 'center',
-    //     width: 100,
-    //     minWidth: 100,
-    //     className: 'row',
-    //     colKey: 'index',
-    //     title: '操作',
-    //     cell() {
-    //         return (
-    //             <a className="a" onClick={() => {console.log(123)}}>复制</a>
-    //         );
-    //     },
-    // },
 ]
 
 const normalMessageColumn: PrimaryTableCol[] = [
@@ -101,19 +88,6 @@ const normalMessageColumn: PrimaryTableCol[] = [
             )
         }
     },
-    // {
-    //     align: 'center',
-    //     width: 100,
-    //     minWidth: 100,
-    //     className: 'row',
-    //     colKey: 'index',
-    //     title: '操作',
-    //     cell() {
-    //         return (
-    //             <a className="a" onClick={() => {console.log(123)}}>复制</a>
-    //         );
-    //     },
-    // },
 ]
 
 const tabs = [{

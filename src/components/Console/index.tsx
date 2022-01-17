@@ -7,20 +7,16 @@ import {Dropdown, Dialog} from 'tdesign-react';
 import {checkLogin, initNav, logout} from "../../utils/login";
 
 export const routes = {
-    thirdToken: {
-        label: '第三方 Token',
-        path: '/token'
-    },
-    thirdMessage: {
-        label: '第三方消息查看',
-        path: '/message'
+    home: {
+      label: '首页',
+      path: '/home'
     },
     authorizedAccountManage: {
         label: '授权帐号管理',
-        path: '/authorizedAccount'
+        path: '/authorizedAccountManage'
     },
     authPageManage: {
-        label: '授权页管理',
+        label: '授权链接生成器',
         path: '/authPageManage'
     },
     passwordManage: {
@@ -42,33 +38,57 @@ export const routes = {
     authorizeH5: {
         label: '授权页H5',
         path: '/authorizeH5'
-    }
+    },
+    developTools: {
+        label: '开发调试',
+        path: '/developTools'
+    },
+    thirdToken: {
+        label: '第三方 Token',
+        path: '/developTools/token',
+        showPath: '/developTools'
+    },
+    thirdMessage: {
+        label: '第三方消息查看',
+        path: '/developTools/message',
+        showPath: '/developTools',
+    },
 }
 
 type IMenuItem = {
     label: string
     path: string
-}[]
+    item?: IMenuItem[]
+    showPath?: string
+    hideItem?: IMenuItem[]
+}
 
-const menuList: {
+type IMenuList = {
     label: string
     icon: JSX.Element
     path?: string
-    item?: IMenuItem
-}[] = [{
-    label: '开发管理',
+    item?: IMenuItem[]
+    hideItem?: IMenuItem[]
+}[]
+
+const menuList: IMenuList = [{
+    ...routes.home,
     icon: <Icon.HomeIcon />,
-    item: [routes.thirdToken, routes.thirdMessage]
 }, {
-    ...routes.authorizedAccountManage,
-    icon: <Icon.UsergroupAddIcon />,
+    label: '管家中心',
+    icon: <Icon.AppIcon />,
+    item: [routes.authPageManage, routes.authorizedAccountManage]
+}, {
+    label: '开发辅助',
+    icon: <Icon.ViewListIcon />,
+    item: [{
+        ...routes.developTools,
+        hideItem: [routes.thirdToken, routes.thirdMessage]
+    }]
 }, {
     label: '系统管理',
     icon: <Icon.SettingIcon />,
-    item: [routes.authPageManage, routes.passwordManage]
-}, {
-    ...routes.systemVersion,
-    icon: <Icon.InfoCircleIcon />,
+    item: [routes.passwordManage, routes.systemVersion]
 }]
 
 const options = [
@@ -99,25 +119,41 @@ export default function Console() {
         initNav(navigate)
         if (checkLogin()) {
             if (location.pathname === '/' || location.pathname === routes.login.path) {
-                navigate('/token')
+                navigate(routes.home.path)
             }
         }
     }, [])
 
-    const headerLabel = useMemo(() => {
-        for (let i = 0; i < menuList.length; i++) {
-            if (menuList[i].item) {
-                for (let j = 0; j < (menuList[i].item || []).length; j++) {
-                    if (menuList[i].item?.[j].path === location.pathname) {
-                        return menuList[i].item?.[j].label
-                    }
+    const findLabel: (path: string, menu: IMenuList | IMenuItem, father?: IMenuItem) => JSX.Element | undefined = (path: string, menu: IMenuList | IMenuItem, father?: IMenuItem) => {
+        if (Array.isArray(menu)) {
+            for (let i = 0; i < menu.length; i++) {
+                const result = findLabel(path, menu[i] as IMenuItem)
+                if (result) return result
+            }
+        } else {
+            if (menu.path === path) {
+                if (menu.showPath) {
+                    return <p className={styles.detail_header_title}><a href={`#${menu.showPath}`} className={`${styles.detail_header_title} a`}>{father?.label}</a> / {menu.label}</p>
+                }
+                return <p className={styles.detail_header_title}>{menu.label}</p>
+            }
+            if (menu.item) {
+                for (let i = 0; i < menu.item.length; i++) {
+                    const result = findLabel(path, menu.item[i], menu)
+                    if (result) return result
                 }
             }
-            if (menuList[i].path === location.pathname) {
-                return menuList[i].label
+            if (menu.hideItem) {
+                for (let i = 0; i < menu.hideItem.length; i++) {
+                    const result = findLabel(path, menu.hideItem[i], menu)
+                    if (result) return result
+                }
             }
         }
-        return ''
+    }
+
+    const headerLabel = useMemo(() => {
+        return findLabel(location.pathname, menuList)
     }, [location.pathname])
 
     return (
@@ -128,7 +164,7 @@ export default function Console() {
             </span>
             <div className={styles.detail}>
                 <div className={styles.detail_header}>
-                    <p className={styles.detail_header_title}>{headerLabel}</p>
+                    {headerLabel}
                     <div className={styles.detail_header_notice}>
                         <Dropdown maxColumnWidth={200} options={noticeOptions}
                                   onClick={() => setShowNotice(true)}>
@@ -157,7 +193,7 @@ export default function Console() {
             </div>
             <Dialog header="通知中心" visible={showNotice} onConfirm={() => setShowNotice(false)}
                     onClose={() => setShowNotice(false)}>
-                <p>管理工具最新版本为V 1.0.0，详情可前往<Link to={routes.systemVersion.path}>系统版本</Link>查看 2021-12-31</p>
+                <p>管理工具最新版本为V 1.1.0，详情可前往<a className="a" href={`#${routes.systemVersion.path}`}>系统版本</a>查看 2022-01-18</p>
             </Dialog>
         </div>
     )

@@ -1,11 +1,11 @@
-// import styles from './index.module.less'
-import {Table, Input, PopConfirm, Dialog, MessagePlugin, Button} from 'tdesign-react';
+import {Table, Input, PopConfirm, Dialog} from 'tdesign-react';
 import { SearchIcon } from 'tdesign-icons-react'
 import {useEffect, useState} from "react";
-import {get, post} from "../../utils/axios";
-import {getAuthAccessTokenUrl, getAuthorizedAccountUrl, syncAccountUrl} from "../../utils/apis";
+import {get} from "../../utils/axios";
+import {getAuthAccessTokenUrl, getAuthorizedAccountUrl} from "../../utils/apis";
 import {PrimaryTableCol} from "tdesign-react/es/table/type";
 import moment from "moment";
+import {copyMessage} from "../../utils/common";
 
 const officialAccountAuthType: Record<string, string> = {
     "-1": "未认证",
@@ -38,16 +38,13 @@ const tokenColumn: PrimaryTableCol[] = [
         title: '操作',
         render({ row }) {
             return (
-                <a className="a" onClick={() => {
-                    navigator.clipboard.writeText(row.token)
-                    MessagePlugin.success('复制成功', 2000)
-                }}>复制</a>
+                <a className="a" onClick={() => copyMessage(row.token)}>复制</a>
             );
         },
     },
 ]
 
-export default function AuthorizedAccount() {
+export default function AuthorizedAccountManage() {
 
     const accountColumn: PrimaryTableCol[] = [
         {
@@ -107,14 +104,6 @@ export default function AuthorizedAccount() {
                 return row.appType === 0 ? miniProgramAuthType[String(row.verifyInfo)] : officialAccountAuthType[String(row.verifyInfo)]
             }
         },
-        // {
-        //     align: 'center',
-        //     width: 100,
-        //     minWidth: 100,
-        //     className: 'row',
-        //     colKey: 'refreshToken',
-        //     title: 'refresh_token',
-        // },
         {
             align: 'center',
             width: 100,
@@ -134,13 +123,10 @@ export default function AuthorizedAccount() {
             render({ row }) {
                 return (
                     <div style={{ width: '210px' }}>
-                        <PopConfirm content="点击确定生成 token 后会导致上一个 token 被刷新而失效，请谨慎操作">
-                            <a className="a" onClick={() => createToken(row.appid)} style={{ margin: '0 10px' }}>生成token</a>
+                        <PopConfirm content="点击确定生成 token 后会导致上一个 token 被刷新而失效，请谨慎操作" onConfirm={() => createToken(row.appid)}>
+                            <a className="a" style={{ margin: '0 10px' }}>生成token</a>
                         </PopConfirm>
-                        <a onClick={() => {
-                            navigator.clipboard.writeText(row.refreshToken)
-                            MessagePlugin.success('复制成功', 2000)
-                        }} className="a">复制refresh_token</a>
+                        <a className="a" onClick={() => copyMessage(row.refreshToken)}>复制refresh_toke</a>
                     </div>
                 );
             },
@@ -184,23 +170,9 @@ export default function AuthorizedAccount() {
         }
     }
 
-    const handleSyncAccount = async () => {
-        const resp = await post({
-            url: syncAccountUrl
-        })
-        if (resp.code === 0) {
-            await MessagePlugin.success('同步成功', 2000)
-            await getAccountList()
-        }
-    }
-
     return (
         <div>
-            <div className="normal_flex" style={{ marginBottom: '16px'}}>
-                <Button onClick={handleSyncAccount} style={{ marginRight: '16px' }}>同步授权帐号</Button>
-                <p>授权帐号指的是授权给该第三方平台帐号的公众号或者小程序，可手动刷新以获取当前已授权帐号。若授权帐号数较多，更新需要一定时间，请耐心等待。</p>
-            </div>
-            <Input value={appIdInput} onChange={setAppIdInput} style={{ width: '400px', marginBottom: '10px' }} placeholder="请输入 AppID，不支持模糊搜索" clearable suffixIcon={<a className="a" onClick={getAccountList}><SearchIcon /></a>} />
+            <Input value={appIdInput} onChange={setAppIdInput} style={{ width: '400px', marginBottom: '10px' }} placeholder="请输入 AppID，不支持模糊搜索" suffixIcon={<a className="a" onClick={getAccountList}><SearchIcon /></a>} />
             <Table
                 data={accountList}
                 columns={accountColumn}

@@ -13,7 +13,6 @@ export const checkLogin = () => {
     const token = localStorage.getItem('token')
     const expiresTime = localStorage.getItem('expiresTime')
     if (!token || !expiresTime) {
-        console.log(nav)
         if (nav) {
             nav('/login')
         } else {

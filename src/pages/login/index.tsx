@@ -1,13 +1,11 @@
 import styles from './index.module.less'
 import { Button, Input, MessagePlugin } from 'tdesign-react'
 import {useState} from "react";
-import * as Axios from "../../utils/axios";
-import {getSecretUrl, loginUrl} from '../../utils/apis'
+import {loginUrl} from '../../utils/apis'
 import {useNavigate} from "react-router-dom";
 import moment from "moment";
-// @ts-ignore
 import md5 from 'js-md5'
-import {get} from "../../utils/axios";
+import {put} from "../../utils/axios";
 import {routes} from "../../components/Console";
 
 export default function Login() {
@@ -18,31 +16,19 @@ export default function Login() {
     const nav = useNavigate()
 
     const handleLogin = async () => {
-        const resp = await Axios.put({
+        const resp = await put({
             url: loginUrl,
             data: {
                 username,
-                password: md5(password)
+                password: md5(String(password))
             },
             notNeedCheckLogin: true
         })
-        console.log(resp)
         if (resp.code === 0) {
             localStorage.setItem('token', resp.data.jwt)
             localStorage.setItem('expiresTime', String(moment().add(12, 'hours').valueOf()))
             localStorage.setItem('username', String(username))
-            const resp2 = await get({
-                url: getSecretUrl
-            })
-            if (resp2.code === 0) {
-                if (resp2.data.secret) {
-                    nav(routes.thirdToken.path)
-                } else {
-                    nav(routes.passwordManage.path)
-                }
-            } else {
-                nav(routes.thirdToken.path)
-            }
+            nav(routes.home.path)
             await MessagePlugin.success('登录成功', 2000)
         }
     }

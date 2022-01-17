@@ -4,15 +4,12 @@ export const HOST = import.meta.env.DEV ? '/api' : ''
 export const getTicketUrl = `${HOST}/admin/ticket`
 export const getComponentTokenUrl = `${HOST}/admin/component-access-token`
 export const getAuthAccessTokenUrl = `${HOST}/admin/authorizer-access-token`
-export const getCloudBaseTokenUrl = `${HOST}/admin/cloudbase-access-token`
 export const getSecretUrl = `${HOST}/admin/secret`
 export const setSecretUrl = `${HOST}/admin/secret`
-export const setComponentInfoUrl = `${HOST}/admin/componentinfo`
 export const getAuthorizedAccountUrl = `${HOST}/admin/authorizer-list`
 export const getNormalMessageUrl = `${HOST}/admin/wx-biz-records`
 export const getAuthMessageUrl = `${HOST}/admin/wx-component-records`
 export const getMessageConfigUrl = `${HOST}/admin/callback-config`
-export const syncAccountUrl = `${HOST}/admin/pull-authorizer-list`
 export const changePasswordUrl = `${HOST}/admin/userpwd`
 export const changeUserNameUrl = `${HOST}/admin/username`
 

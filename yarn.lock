@@ -284,6 +284,11 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
+"@types/js-md5@^0.4.3":
+  version "0.4.3"
+  resolved "http://r.tnpm.oa.com/@types%2fjs-md5/-/js-md5-0.4.3.tgz#c134cbb71c75018876181f886a12a2f9962a312a"
+  integrity sha512-BIga/WEqTi35ccnGysOuO4RmwVnpajv9oDB/sDQSY2b7/Ac7RyYR30bv7otZwByMvOJV9Vqq6/O1DFAnOzE4Pg==
+
 "@types/prop-types@*":
   version "15.7.4"
   resolved "http://r.tnpm.oa.com/@types%2fprop-types/-/prop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
@@ -994,10 +999,10 @@ tdesign-icons-react@^0.0.5:
   dependencies:
     classnames "^2.2.6"
 
-tdesign-react@^0.21.0:
-  version "0.21.0"
-  resolved "http://r.tnpm.oa.com/tdesign-react/-/tdesign-react-0.21.0.tgz#4cf3db0b7fce53efef8deb42c86cdca233afb594"
-  integrity sha512-/FNv4qiRLNxix8yCq94C3dpytehemvmjxTDrHIefvc7HSohyxGR9Se/k9mTU6AanJvQoI7d4I88tdZQyOEX7hg==
+tdesign-react@^0.22.1:
+  version "0.22.1"
+  resolved "http://r.tnpm.oa.com/tdesign-react/-/tdesign-react-0.22.1.tgz#344d17a35311dd94b5678781de7d60726268b617"
+  integrity sha512-W+M2Vt4rgTCMFtt7EVDd+jCV0pdFwYkL3N/njYFGd4K1akM32L7Inhhuqv3yE/LXtk5XtUF78HEvJBFfgOs2fQ==
   dependencies:
     "@babel/runtime" "~7.15.4"
     "@popperjs/core" "~2.4.0"
@@ -1010,7 +1015,7 @@ tdesign-react@^0.21.0:
     react-popper "~2.2.3"
     react-transition-group "~4.4.1"
     tdesign-icons-react "0.0.6"
-    tslib "~2.2.0"
+    tslib "~2.3.1"
     use-resize-observer "^8.0.0"
     uuid "~8.3.2"
     validator "~13.7.0"
@@ -1025,15 +1030,10 @@ to-fast-properties@^2.0.0:
   resolved "http://r.tnpm.oa.com/to-fast-properties/-/to-fast-properties-2.0.0.tgz#dc5e698cbd079265bc73e0377681a4e4e83f616e"
   integrity sha1-3F5pjL0HkmW8c+A3doGk5Og/YW4=
 
-tslib@^2.3.0:
+tslib@^2.3.0, tslib@~2.3.1:
   version "2.3.1"
   resolved "http://r.tnpm.oa.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
-
-tslib@~2.2.0:
-  version "2.2.0"
-  resolved "http://r.tnpm.oa.com/tslib/-/tslib-2.2.0.tgz#fb2c475977e35e241311ede2693cee1ec6698f5c"
-  integrity sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==
 
 typescript@^4.3.2:
   version "4.5.2"

@@ -9,7 +9,6 @@ import {
     setSecretUrl
 } from "../../utils/apis";
 import {useEffect, useState} from "react";
-// @ts-ignore
 import md5 from 'js-md5';
 
 export default function PasswordManage() {
@@ -100,8 +99,8 @@ export default function PasswordManage() {
         const resp = await post({
             url: changePasswordUrl,
             data: {
-                password: md5(passwordInput),
-                oldPassword: md5(oldPasswordInput),
+                password: md5(String(passwordInput)),
+                oldPassword: md5(String(oldPasswordInput)),
             }
         })
         if (resp.code === 0) {
